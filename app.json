@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "kalaha-Andro-apps",
+    "name": "kalaha Restaurant",
     "slug": "kalaha-Andro-apps",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon/fnb.jpg",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icon/fnb.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.khalid1995.kalahaAndroapps"
     },
     "web": {
       "favicon": "./assets/favicon.png"
