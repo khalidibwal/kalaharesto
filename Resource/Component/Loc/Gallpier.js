@@ -1,23 +1,34 @@
 
 import React, {useState, useEffect} from 'react'
 // import * as firebase from 'firebase';
-// import firebase from 'firebase/compat/app'
-// import firebase from 'firebase/app';
-// import 'firebase/auth'
-
-
+// import firebase from "firebase/compat/app"
+import firebase from 'firebase/app';
+import 'firebase/auth'
+import 'firebase/storage'
 
 import {Card} from 'react-native-elements'
-import { FlatList, Image, View, StyleSheet} from 'react-native'
+import { FlatList, Image, View, StyleSheet, ActivityIndicator} from 'react-native'
 
 const Gallpier = () =>{
-    const [sampleImage, setSampleImage] = useState([]); 
+    const [sampleImage, setSampleImage] = useState([]);
+    const [loading, setLoading] = useState(true) 
+
+    const activeload = () =>{
+        return(
+            <ActivityIndicator size={'large'}/>
+        )
+    }
+    const imageLoad = () => {
+        setTimeout(() => {
+            activeload()
+          }, 5000);
+        }
 
     const getSampleImage = async () => {
-        const imageRefs = await ref(getStorage(firebase,'pier/'))
+        const imageRefs = await firebase.storage().ref().child('pier/').listAll();
     const urls = await Promise.all(imageRefs.items.map((ref) => ref.getDownloadURL()));
     setSampleImage(urls);
-    console.log('log now', imageRefs)
+    console.log('log now', sampleImage)
     }
 
  

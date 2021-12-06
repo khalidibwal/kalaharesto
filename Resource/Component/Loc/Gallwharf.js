@@ -1,9 +1,8 @@
 
 import React, {useState, useEffect} from 'react'
-// import * as firebase from 'firebase';
-// import firebase from "firebase/compat/app"
-// import firebase from 'firebase/app';
-// import 'firebase/auth'
+import firebase from 'firebase/app';
+import 'firebase/auth'
+import 'firebase/storage'
 
 import {Card} from 'react-native-elements'
 import { FlatList, Image, View, StyleSheet} from 'react-native'
