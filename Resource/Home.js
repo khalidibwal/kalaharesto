@@ -40,15 +40,9 @@ export default class Home extends React.Component{
           inactiveDotColor="#90A4AE"
           circleLoop
           resizeMode='cover'
-          sliderBoxHeight={300}
+          sliderBoxHeight={200}
         />    
-        <SliderBox
-          images={this.state.banner}
-          autoplay
-          circleLoop
-          style={Styles.sliderStyle}
-          resizeMode={'cover'}
-        />
+        
         <ScrollView>
           <Card containerStyle={Styles.cardstyle}>
             <Card.Image source={require('../assets/icon/foodmenu.jpg')}>
@@ -91,6 +85,13 @@ export default class Home extends React.Component{
                 onPress={()=>this.props.navigation.navigate('Coupon')}/>
           </Card>
         </ScrollView>
+        <SliderBox
+          images={this.state.banner}
+          autoplay
+          circleLoop
+          style={Styles.sliderStyle}
+          resizeMode={'cover'}
+        />
         <TouchableOpacity
         style={Styles.iconChat}>
           <FAB
