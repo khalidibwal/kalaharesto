@@ -8,9 +8,12 @@ import {
   Text,
   View,
   StyleSheet,
+  Button,
   Alert
 } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
+import { auth,db } from '../../config/ChatConfig';
+
 const { width, height } = Dimensions.get('window');
 
 const ROWS = 6;
@@ -34,6 +37,7 @@ Array(ROWS * COLS).join(' ').split(' ').map((_, i) => {
   };
 
   seats.push(currentItem);
+  
 });
 
 export default class Reservation extends Component {
@@ -53,11 +57,14 @@ export default class Reservation extends Component {
     });
   }
 
+ 
+
   animate = () => {
     const animations = seatsAnimation.map(item => {
       return Animated.timing(this.animatedValue[item], {
         toValue: this.state.finished ? 0 : 1,
-        duration: TIMING
+        duration: TIMING,
+        useNativeDriver: true,
       });
     });
     Animated.sequence([
@@ -72,6 +79,7 @@ export default class Reservation extends Component {
       Animated.timing(this.selectionAnimation, {
         toValue: 0,
         duration: 1000,
+        useNativeDriver: true,
         easing: Easing.elastic(1.3)
       }).start();
     });
@@ -85,10 +93,12 @@ export default class Reservation extends Component {
     });
     const { selectedItems } = this.state;
     const isSelected = selectedItems.includes(item.key);
+    
     const itemPressScale = item.animated.interpolate({
       inputRange: [0, 0.5, 1],
       outputRange: [1, 0, 1]
     });
+    
 
     return (
       <TouchableOpacity
@@ -108,11 +118,13 @@ export default class Reservation extends Component {
                 Animated.timing(this.selectionAnimation, {
                   toValue: -TEXT_HEIGHT * selected.length,
                   duration: 500,
+                  useNativeDriver: true,
                   easing: Easing.elastic(1.3)
                 }),
                 Animated.timing(item.animated, {
                   toValue: 1,
-                  duration: 200
+                  duration: 200,
+                  useNativeDriver: true
                 })
               ]).start();
             }
@@ -132,7 +144,7 @@ export default class Reservation extends Component {
           <Animated.View
             style={[
               {
-                backgroundColor: isSelected ? '#8EF0E7' : '#3493FF'
+                backgroundColor: isSelected ? 'red' : '#3493FF'
               },
               styles.item,
               {
@@ -151,6 +163,21 @@ export default class Reservation extends Component {
       </TouchableOpacity>
     );
   };
+
+ saveRowSeat = () =>{
+  const {selectedItems} = this.state
+  console.log("save row", selectedItems)
+  
+  if(selectedItems === null){
+    console.log("Please Choose your seat first")
+  }
+  else{
+    db.collection('reservation').add({rowSeat:selectedItems})
+    alert('Save Successfully')
+  }
+ }
+
+
 
   render() {
     return (
@@ -231,8 +258,14 @@ export default class Reservation extends Component {
             </Animated.View>
           </View>
           <Text style={styles.text}>
-            locations Selected
+            Table Selected 
           </Text>
+          {/* <Text style={styles.text}>
+            Row Seat Selected :  {this.state.selectedItems},
+          </Text> */}
+          <View style={styles.container}>
+          <Button title='save' onPress={()=> this.saveRowSeat()}></Button>
+          </View>
         </View>
       </View>
     );
@@ -256,5 +289,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '700'
   },
-  text: { fontSize: 15, fontWeight: '500' }
+  text: { fontSize: 15, fontWeight: '500' },
+  spaceBetween:{
+    marginTop:10
+  }
 });
