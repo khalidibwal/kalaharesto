@@ -11,9 +11,12 @@ import {
   Button,
   Alert
 } from 'react-native';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { auth,db } from '../../config/ChatConfig';
-
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import { Card, Icon } from 'react-native-elements'
 const { width, height } = Dimensions.get('window');
 
 const ROWS = 6;
@@ -37,16 +40,18 @@ Array(ROWS * COLS).join(' ').split(' ').map((_, i) => {
   };
 
   seats.push(currentItem);
-  
+  console.log("label",currentItem)
 });
 
 export default class Reservation extends Component {
+  
   constructor(props) {
     super(props);
 
     this.state = {
       finished: false,
-      selectedItems: []
+      selectedItems: [],
+      username:''
     };
 
     this.selectionAnimation = new Animated.Value(0);
@@ -57,7 +62,10 @@ export default class Reservation extends Component {
     });
   }
 
- 
+  componentDidMount(){
+    const isSignin = firebase.auth().currentUser.displayName
+    this.setState({username:isSignin})
+  }
 
   animate = () => {
     const animations = seatsAnimation.map(item => {
@@ -165,15 +173,39 @@ export default class Reservation extends Component {
   };
 
  saveRowSeat = () =>{
-  const {selectedItems} = this.state
-  console.log("save row", selectedItems)
+  const {selectedItems, username} = this.state
+  var a = this.state.selectedItems
+  var x = a.map(function(item){
+    return item + 1
+  })
+  console.log("var x", x)
   
-  if(selectedItems === null){
-    console.log("Please Choose your seat first")
+  if(x && x.length){
+    const save = db.collection('reservation').add({rowSeat:x, username:username})
+    Alert.alert(
+      'Confirm',
+      'Reservation Succesfully Booked',
+      [
+        {
+          text: 'Yes',
+          onPress: () => {save}
+        },
+      ],
+      {cancelable: false},
+    );
   }
   else{
-    db.collection('reservation').add({rowSeat:selectedItems})
-    alert('Save Successfully')
+    Alert.alert(
+      'Warning',
+      'Please Choose Your Seat First',
+      [
+        {
+          text: 'Close',
+          onPress: () => console.log('Failed')
+        },
+      ],
+      {cancelable: false},
+    );
   }
  }
 
@@ -190,13 +222,13 @@ export default class Reservation extends Component {
             justifyContent: 'space-between',
             flexDirection: 'row'
           }}>
-          <SimpleLineIcons
+          {/* <SimpleLineIcons
             name="menu"
             size={22}
             color="#666"
             style={{ paddingLeft: 12 }}
-          />
-          <Text style={{ fontSize: 14, fontWeight: '700', color: '#333' }}>
+          /> */}
+          <Text style={{ fontSize: 14, fontWeight: '700', color: '#333', paddingLeft:12 }}>
             Select Seats
           </Text>
           <SimpleLineIcons.Button
@@ -260,11 +292,8 @@ export default class Reservation extends Component {
           <Text style={styles.text}>
             Table Selected 
           </Text>
-          {/* <Text style={styles.text}>
-            Row Seat Selected :  {this.state.selectedItems},
-          </Text> */}
           <View style={styles.container}>
-          <Button title='save' onPress={()=> this.saveRowSeat()}></Button>
+          <Button title='Confirm' onPress={()=> this.saveRowSeat()}></Button>
           </View>
         </View>
       </View>
