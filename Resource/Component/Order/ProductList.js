@@ -19,8 +19,8 @@ function renderProduct({item: product}) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    setProducts(getProducts());
-  });
+    setProducts(getProducts().slice(0,1));
+  },[]);
 
   return (
     <FlatList

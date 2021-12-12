@@ -11,7 +11,6 @@ import {
   Button,
   Alert
 } from 'react-native';
-import AwesomeAlert from 'react-native-awesome-alerts';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { auth,db } from '../../config/ChatConfig';
 import firebase from 'firebase/app'

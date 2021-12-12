@@ -49,6 +49,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~2.15.2",
     "react-native-scrollable-tab-view-forked": "^1.1.3",
+    "react-native-super-lottery": "^0.0.2",
     "react-native-sweet-alert": "^3.5.0",
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "~0.13.12",
