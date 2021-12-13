@@ -19,7 +19,7 @@ function renderProduct({item: product}) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    setProducts(getProducts().slice(0,1));
+    setProducts(getProducts().slice(0,17));
   },[]);
 
   return (

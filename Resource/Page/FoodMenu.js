@@ -14,7 +14,7 @@ export default class FoodMenu extends React.Component{
     render(){
         return(
     <ScrollableTabView>
-        <ProductList tabLabel="Food" navigation={this.props.navigation}/>
+        <ProductList tabLabel="Appetizer" navigation={this.props.navigation}/>
         <DrinkTab tabLabel="Beverages" navigation={this.props.navigation}/>
         <ProductList tabLabel="Other" navigation={this.props.navigation}/>
       </ScrollableTabView>
