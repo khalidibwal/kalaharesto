@@ -1,5 +1,8 @@
 import React from 'react';
 import {Text, Image, View, StyleSheet, TouchableOpacity} from 'react-native';
+function currencyFormat(num) {
+  return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
 export function Product({name, price, image, onPress}) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
@@ -9,7 +12,7 @@ export function Product({name, price, image, onPress}) {
       />
       <View style={styles.infoContainer}>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.price}>$ {price}</Text>
+        <Text style={styles.price}>IDR {currencyFormat(price)}</Text>
       </View>
     </TouchableOpacity>
   );

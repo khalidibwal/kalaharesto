@@ -112,7 +112,7 @@ export default class AddCart extends React.Component {
 									<View style={{flexGrow: 1, flexShrink: 1, alignSelf: 'center'}}>
 										<Text numberOfLines={1} style={{fontSize: 15}}>{item.name}</Text>
 										<Text numberOfLines={1} style={{color: '#8f8f8f'}}>{item.color ? 'Variation: ' + item.color : ''}</Text>
-                    <Text numberOfLines={1} style={{color: '#333333', marginBottom: 10}}>${item.qty * item.salePrice}</Text>
+                    <Text numberOfLines={1} style={{color: '#333333', marginBottom: 10}}>IDR {item.qty * item.salePrice}</Text>
 										<View style={{flexDirection: 'row'}}>
 											<TouchableOpacity onPress={() => this.quantityHandler('less', i)} style={{ borderWidth: 1, borderColor: '#cccccc' }}>
 												<MaterialIcons name="remove" size={22} color="#cccccc" />
@@ -167,7 +167,7 @@ export default class AddCart extends React.Component {
 								<Text>Select All</Text>
 								<View style={{flexDirection: 'row', paddingRight: 20, alignItems: 'center'}}>
 									<Text style={{color: '#8f8f8f'}}>SubTotal: </Text>
-									<Text>${this.subtotalPrice().toFixed(2)}</Text>
+									<Text>IDR {this.subtotalPrice().toFixed(2)}</Text>
 								</View>
 							</View>
 						</View>

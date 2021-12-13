@@ -15,7 +15,7 @@ export function ProductDetails({route}) {
   const { productId } = route.params;
   const [product, setProduct] = useState({});
 
-  const { addItemToCart } = useContext(CartContext);
+  const { addItemToCart,decreaseItemToCart } = useContext(CartContext);
 
   useEffect(() => {
     setProduct(getProduct(productId));
@@ -23,6 +23,9 @@ export function ProductDetails({route}) {
 
   function onAddToCart() {
     addItemToCart(product.id);
+  }
+  function decreaseCart(){
+    decreaseItemToCart(product.id)
   }
 
   return (
@@ -34,11 +37,16 @@ export function ProductDetails({route}) {
         />
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{product.name}</Text>
-          <Text style={styles.price}>$ {product.price}</Text>
+          <Text style={styles.price}>IDR {product.price}</Text>
           <Text style={styles.description}>{product.description}</Text>
             <Button
             onPress={onAddToCart}
-            title="Add to cart"
+            title="Add"
+            />
+            <Text style={{textAlign:'center'}}>OR</Text>
+            <Button
+            onPress={decreaseCart}
+            title="Decrease"
             />
         </View>
       </ScrollView>

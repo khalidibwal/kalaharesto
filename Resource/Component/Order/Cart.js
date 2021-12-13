@@ -6,11 +6,9 @@ import QRCode from 'react-native-qrcode-svg';
 export function Cart ({navigation}) {
 const {items, getItemsCount, getTotalPrice} = useContext(CartContext);
 
-  const numberFormat = (value) =>
-  new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR'
-  }).format(value);
+function currencyFormat(num) {
+  return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
 
   function Totals() {
     let [total, setTotal] = useState(0);
@@ -18,12 +16,12 @@ const {items, getItemsCount, getTotalPrice} = useContext(CartContext);
       setTotal(getTotalPrice());
     });
     return (
-      <Card>
+      <Card containerStyle={styles.cardRound}>
        <View style={styles.cartLineTotal}>
           <Text style={[styles.lineLeft, styles.lineTotal]}>Total</Text>
-          <Text style={styles.lineRight}>IDR {numberFormat(total)}</Text>
+          <Text style={styles.lineRight}>IDR {currencyFormat(total)}</Text>
        </View>
-       <Button title="Done" onPress={()=>navigation.navigate('Scan',{
+       <Button title="Confirm" onPress={()=>navigation.navigate('Scan',{
       data:items
     })}/>
        </Card>
@@ -39,7 +37,7 @@ function renderItem({item}) {
        <View style={styles.cartLine}>
           <Image source={item.product.image} style={styles.imageMenu}/>
           <Text style={styles.lineLeft}>{item.product.name} x {item.qty}</Text>
-          <Text style={styles.lineRight}>IDR {item.totalPrice}</Text>
+          <Text style={styles.lineRight}>IDR {currencyFormat(item.totalPrice)}</Text>
        </View>
        </Card>     
        </ScrollView>
@@ -65,7 +63,7 @@ const styles = StyleSheet.create({
     borderRadius:10
   },
   cartLine: { 
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   cartLineTotal: { 
     flexDirection: 'row',
@@ -78,7 +76,8 @@ const styles = StyleSheet.create({
   lineLeft: {
     fontSize: 15, 
     lineHeight: 40, 
-    color:'#333333' 
+    color:'#333333',
+    left:10 
   },
   lineRight: { 
     flex: 1,
