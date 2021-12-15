@@ -1,4 +1,5 @@
 import React, {createContext, useState} from 'react';
+import { Alert } from 'react-native';
 import { getProduct } from '../../Services/ProductService';
 export const CartContext = createContext();
 export function CartProvider(props) {
@@ -48,6 +49,19 @@ function decreaseItemToCart(id) {
           if(item.id == id && item.totalPrice > 0) {
             item.qty--;
             item.totalPrice -= product.price;
+          }
+          else if(item.id == id && item.totalPrice === 0){
+            Alert.alert(
+              'Cancel',
+              'You just Cancel the order menu',
+              [
+                {
+                  text: 'Close',
+                  onPress: () => console.log('Canceling order')
+                },
+              ],
+              {cancelable: false},
+            );
           }
           return item;
         });

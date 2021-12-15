@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { Product } from '../Order/Product';
 import { getProducts } from '../../Services/ProductService';
 import { ProductDetails } from '../Order/ProductDetails';
-export function DrinkTab ({navigation}) {
+export function Pasta ({navigation}) {
 function renderProduct({item: product}) {
     return (
       <Product {...product} 
@@ -19,7 +19,7 @@ function renderProduct({item: product}) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    setProducts(getProducts().slice(21,30));
+    setProducts(getProducts().slice(17,21));
   },[]);
 
   return (

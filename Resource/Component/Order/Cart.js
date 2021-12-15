@@ -10,11 +10,30 @@ function currencyFormat(num) {
   return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
 
+function getBarcode(){
+  return (
+    <View>
+    <FlatList
+      style={styles.itemsList}
+      contentContainerStyle={styles.itemsListContainer}
+      data={items}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.product.id.toString()}
+      ListFooterComponent={Totals}
+    />
+    
+    </View>
+  );
+}
+
   function Totals() {
     let [total, setTotal] = useState(0);
     useEffect(() => {
       setTotal(getTotalPrice());
+      console.log("get barcode",getBarcode())
     });
+    
+    
     return (
       <Card containerStyle={styles.cardRound}>
        <View style={styles.cartLineTotal}>
@@ -22,7 +41,7 @@ function currencyFormat(num) {
           <Text style={styles.lineRight}>IDR {currencyFormat(total)}</Text>
        </View>
        <Button title="Confirm" onPress={()=>navigation.navigate('Scan',{
-      data:items
+      data:getBarcode()
     })}/>
        </Card>
        
@@ -33,13 +52,13 @@ function renderItem({item}) {
 
     return (
     <ScrollView>
-      <Card containerStyle={styles.cardRound}>
+      {item.qty > 0 ?<Card containerStyle={styles.cardRound}>
        <View style={styles.cartLine}>
           <Image source={item.product.image} style={styles.imageMenu}/>
           <Text style={styles.lineLeft}>{item.product.name} x {item.qty}</Text>
           <Text style={styles.lineRight}>IDR {currencyFormat(item.totalPrice)}</Text>
        </View>
-       </Card>     
+       </Card>:<></>}     
        </ScrollView>
     );
   }

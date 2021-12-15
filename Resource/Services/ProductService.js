@@ -118,6 +118,69 @@ const PRODUCTS = [
         image: require('../../assets/denkalaha/appetizer/SAUSAGE_FRIES.jpg'),
         description: 'Deep Fried Sausage, Cornmeal Batter Served With Choices Of Sauces'
     },
+    {
+        id: 207,
+        name: 'Aglio Olio',
+        price: 49000,
+        image: require('../../assets/denkalaha/pasta/aglio.jpeg'),
+        description: 'Spaghetti, Garlic, Olive Oil, Chilli Slices, Cherry Tomato, Chilli Flakes'
+    },
+    {
+        id: 208,
+        name: 'Bolognese',
+        price: 62000,
+        image: require('../../assets/denkalaha/pasta/BOLOGNESE.jpg'),
+        description: 'Spaghetti, Napolitana Sauce, Minced Beef'
+    },
+    {
+        id: 209,
+        name: 'Carbonara',
+        price: 74000,
+        image: require('../../assets/denkalaha/pasta/CARBONARA.jpg'),
+        description: 'Spaghetti, Cream, Ham, Onion, Garlic'
+    },
+    {
+        id: 300,
+        name: 'Fish & Chips',
+        price: 119000,
+        image: require('../../assets/denkalaha/pasta/fish.jpg'),
+        description: 'Deep Fried Beef Sutchi Catfish Served With Fries'
+    },
+    {
+        id: 301,
+        name: 'Anker Pint',
+        price: 55000,
+        image: require('../../assets/denkalaha/BEVERAGE/anker.jpg'),
+        description: 'Deep Fried Beef Sutchi Catfish Served With Fries'
+    },
+    {
+        id: 302,
+        name: 'Absolute Blue 75 CL',
+        price: 1400000,
+        image: require('../../assets/denkalaha/BEVERAGE/ABSOLUT_BLUE_75CL.jpg'),
+        description: 'Deep Fried Beef Sutchi Catfish Served With Fries'
+    },
+    {
+        id: 303,
+        name: 'Fish & Chips',
+        price: 119000,
+        image: require('../../assets/denkalaha/pasta/fish.jpg'),
+        description: 'Deep Fried Beef Sutchi Catfish Served With Fries'
+    },
+    {
+        id: 304,
+        name: 'Fish & Chips',
+        price: 119000,
+        image: require('../../assets/denkalaha/pasta/fish.jpg'),
+        description: 'Deep Fried Beef Sutchi Catfish Served With Fries'
+    },
+    {
+        id: 305,
+        name: 'Fish & Chips',
+        price: 119000,
+        image: require('../../assets/denkalaha/pasta/fish.jpg'),
+        description: 'Deep Fried Beef Sutchi Catfish Served With Fries'
+    },
 ];
 export function getProducts() {
     return PRODUCTS;
