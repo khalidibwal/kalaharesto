@@ -4,9 +4,9 @@
     "slug": "kalaha-Andro-apps",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon/fnb.jpg",
+    "icon": "./assets/icon/fnb.png",
     "splash": {
-      "image": "./assets/icon/fnb.jpg",
+      "image": "./assets/icon/fnb.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

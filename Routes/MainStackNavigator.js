@@ -29,6 +29,7 @@ import { ProductDetails } from '../Resource/Component/Order/ProductDetails';
 import { Cart } from '../Resource/Component/Order/Cart';
 import { CartIcon } from '../Resource/Component/Order/CartIcon';
 import { CartProvider } from '../Resource/Component/Order/CartContext';
+// import Booking from '../Resource/Page/Reserv/Booking';
 
 
 const Stack = createStackNavigator()
@@ -38,7 +39,7 @@ function Root(){
     return(
         <Drawer.Navigator
         screenOptions={{headerShown:true}} 
-        drawerContent={(props) => <Menu {...props} /> }>
+        drawerContent={(props) => <Menu {...props} navigate={props.navigation} /> }>
             <Drawer.Screen name='Home' component={Home} 
             options={{headerTitle: props=> <Titleheader />}} />
             <Drawer.Screen name='Food' component={FoodMenu} 
@@ -76,9 +77,6 @@ const MainStackNavigator = () =>{
                 options={{headerTitle: props=> <Titleheader />}}/>
                 <Stack.Screen name="Scan" component={Scanner}
                 options={{headerTitle: props=> <Titleheader />}}/>
-                {/* <Stack.Screen name="Coupon" component={Coupon}
-                options={{headerTitle: props=> <Titleheader />}}/> */}
-
               <Stack.Screen name='Products' component={ProductList} 
                 options={({ navigation }) => ({
                   title: 'Products',

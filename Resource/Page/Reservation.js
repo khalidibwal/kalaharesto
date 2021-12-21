@@ -9,8 +9,11 @@ import {
   View,
   StyleSheet,
   Button,
-  Alert
+  Alert,
+  Modal
 } from 'react-native';
+import QRCode from "react-native-qrcode-svg";
+import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { auth,db } from '../../config/ChatConfig';
 import firebase from 'firebase/app'
@@ -50,7 +53,9 @@ export default class Reservation extends Component {
     this.state = {
       finished: false,
       selectedItems: [],
-      username:''
+      username:'',
+      visible:false,
+      dates:''
     };
 
     this.selectionAnimation = new Animated.Value(0);
@@ -63,7 +68,8 @@ export default class Reservation extends Component {
 
   componentDidMount(){
     const isSignin = firebase.auth().currentUser.displayName
-    this.setState({username:isSignin})
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp()
+    this.setState({username:isSignin,dates:timestamp})
   }
 
   animate = () => {
@@ -162,6 +168,9 @@ export default class Reservation extends Component {
                 ]
               }
             ]}>
+              <Animated.Text style={[styles.itemText]}>
+              Table
+            </Animated.Text>
             <Animated.Text style={[styles.itemText]}>
               {item.label}
             </Animated.Text>
@@ -171,8 +180,10 @@ export default class Reservation extends Component {
     );
   };
 
+
+
  saveRowSeat = () =>{
-  const {selectedItems, username} = this.state
+  const {selectedItems, username, dates} = this.state
   var a = this.state.selectedItems
   var x = a.map(function(item){
     return item + 1
@@ -180,18 +191,8 @@ export default class Reservation extends Component {
   console.log("var x", x)
   
   if(x && x.length){
-    const save = db.collection('reservation').add({rowSeat:x, username:username})
-    Alert.alert(
-      'Confirm',
-      'Reservation Succesfully Booked',
-      [
-        {
-          text: 'Yes',
-          onPress: () => {save}
-        },
-      ],
-      {cancelable: false},
-    );
+    db.collection('reservate').add({rowSeat:x, username:username, totalSeat:x.length, date:dates})
+    this.setState({visible:true})
   }
   else{
     Alert.alert(
@@ -211,11 +212,16 @@ export default class Reservation extends Component {
 
 
   render() {
+    var a = this.state.selectedItems
+    var x = a.map(function(item){
+      return item + 1
+    })
+    var qrdata = "Seat Row :" +" "+ x
     return (
       <View style={styles.container}>
         <View
           style={{
-            height: height * 0.1,
+            height: 100,
             width: width,
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -238,10 +244,27 @@ export default class Reservation extends Component {
             onPress={this.animate}
           />
         </View>
+        <Text>UPPER FLOORS</Text>
         <FlatList
           numColumns={COLS}
-          extraData={this.state.selectedItems}
-          data={seats}
+          extraData={this.state.selectedItems.slice(0,10)}
+          data={seats.slice(0,10)}
+          style={{ flex: 0.8 }}
+          renderItem={this.renderItem}
+        />
+        <Text>INDOOR</Text>
+        <FlatList
+          numColumns={COLS}
+          extraData={this.state.selectedItems.slice(10,20)}
+          data={seats.slice(10,20)}
+          style={{ flex: 0.8 }}
+          renderItem={this.renderItem}
+        />
+        <Text>OUT DOOR</Text>
+        <FlatList
+          numColumns={COLS}
+          extraData={this.state.selectedItems.slice(20,30)}
+          data={seats.slice(20,30)}
           style={{ flex: 0.8 }}
           renderItem={this.renderItem}
         />
@@ -295,6 +318,23 @@ export default class Reservation extends Component {
           <Button title='Confirm' onPress={()=> this.saveRowSeat()}></Button>
           </View>
         </View>
+        
+        <Modal            
+          animationType = {"fade"}  
+          transparent = {false}  
+          visible = {this.state.visible}  
+          onRequestClose = {() =>{ console.log("Modal has been closed.") } }>  
+
+              <View style = {styles.modal}>
+              <QRCode value={qrdata}
+              size={220}/>  
+              <Text style = {styles.text}> Name : {this.state.username}</Text>  
+              <Text style = {styles.text}> Seat row : {x + ','}</Text>  
+              {/* <Text style = {styles.text}> Date Reservation : {new Date(this.state.dates.toDate()).toDateString()}</Text>   */}
+              <Button title="Close" style={styles.tops} onPress = {() => {  
+                  this.setState({ visible:!this.state.visible})}}/>  
+          </View>  
+        </Modal>  
       </View>
     );
   }
@@ -320,5 +360,21 @@ const styles = StyleSheet.create({
   text: { fontSize: 15, fontWeight: '500' },
   spaceBetween:{
     marginTop:10
-  }
+  },
+  modal: {  
+    justifyContent: 'center',  
+    alignItems: 'center',   
+    backgroundColor : "#e5e5e5",   
+    height: 400 ,  
+    width: '80%',  
+    borderRadius:10,  
+    borderWidth: 1,  
+    borderColor: '#fff',    
+    marginTop: 80,  
+    marginLeft: 40,  
+     
+     },
+    tops:{
+      marginTop:15
+    }  
 });
