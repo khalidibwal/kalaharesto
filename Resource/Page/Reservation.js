@@ -32,18 +32,7 @@ for (var i = 0; i < ROWS + COLS - 1; i++) {
   seatsAnimation.push(i);
 }
 
-Array(ROWS * COLS).join(' ').split(' ').map((_, i) => {
-  const currentIndex = i % COLS + Math.floor(i / COLS) % ROWS;
-  const currentItem = {
-    label: i + 1 < 10 ? '0' + (i + 1) : i + 1,
-    s: currentIndex,
-    key: i,
-    animated: new Animated.Value(1)
-  };
 
-  seats.push(currentItem);
-  console.log("label",currentItem)
-});
 
 export default class Reservation extends Component {
   
@@ -55,7 +44,8 @@ export default class Reservation extends Component {
       selectedItems: [],
       username:'',
       visible:false,
-      dates:''
+      dates:'',
+      reservationdata:[]
     };
 
     this.selectionAnimation = new Animated.Value(0);
@@ -67,9 +57,29 @@ export default class Reservation extends Component {
   }
 
   componentDidMount(){
+    Array(ROWS * COLS).join(' ').split(' ').map((_, i) => {
+      const currentIndex = i % COLS + Math.floor(i / COLS) % ROWS;
+      const currentItem = {
+        label: i + 1 < 10 ? '0' + (i + 1) : i + 1,
+        s: currentIndex,
+        key: i,
+        animated: new Animated.Value(1)
+      };
+    
+      seats.push(currentItem);
+      console.log("labelss",currentItem)
+    });
     const isSignin = firebase.auth().currentUser.displayName
     const timestamp = firebase.firestore.FieldValue.serverTimestamp()
     this.setState({username:isSignin,dates:timestamp})
+    this.state.selectedItems
+
+    // db.collection('reservate').get().then((querySnapshot) => {
+    //   querySnapshot.forEach(snapshot => {
+    //       let data = snapshot.data();
+    //       console.log("dbcolection",data.rowSeat);
+    //   }
+    // )})
   }
 
   animate = () => {
@@ -85,10 +95,9 @@ export default class Reservation extends Component {
     ]).start(() => {
       this.setState({
         finished: !this.state.finished,
-        selectedItems: []
+        selectedItems: this.state.selectedItems
       });
 
-      // this.selectionAnimation.setValue(0);
       Animated.timing(this.selectionAnimation, {
         toValue: 0,
         duration: 1000,
@@ -104,9 +113,10 @@ export default class Reservation extends Component {
       inputRange: [0, 0.5, 1],
       outputRange: [1, 0, 1]
     });
-    const { selectedItems } = this.state;
-    const isSelected = selectedItems.includes(item.key);
-    
+    const { selectedItems, reservationdata } = this.state;
+    const isSelected = selectedItems.includes(i);
+    // this.setState({reservationdata:isSelected})
+    console.log("isselected", isSelected)
     const itemPressScale = item.animated.interpolate({
       inputRange: [0, 0.5, 1],
       outputRange: [1, 0, 1]
@@ -173,6 +183,9 @@ export default class Reservation extends Component {
             </Animated.Text>
             <Animated.Text style={[styles.itemText]}>
               {item.label}
+            </Animated.Text>
+            <Animated.Text style={[styles.itemText]}>
+              2 Seat
             </Animated.Text>
           </Animated.View>
         </Animated.View>
@@ -244,7 +257,7 @@ export default class Reservation extends Component {
             onPress={this.animate}
           />
         </View>
-        <Text>UPPER FLOORS</Text>
+        <Text>UPPER FLOORS </Text>
         <FlatList
           numColumns={COLS}
           extraData={this.state.selectedItems.slice(0,10)}
@@ -351,7 +364,9 @@ const styles = StyleSheet.create({
     width: width / COLS,
     height: width / COLS,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderRadius:20,
+    marginBottom:10
   },
   itemText: {
     color: 'white',

@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   thumb: {
-    height: 260,
+    height: 160,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     width: '100%',

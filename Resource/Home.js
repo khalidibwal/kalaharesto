@@ -1,12 +1,10 @@
 import React,{useState,useEffect} from 'react'
 import {View, Text,StyleSheet,ScrollView, TouchableOpacity, ImageBackground, Image} from 'react-native'
 import { SliderBox } from "react-native-image-slider-box";
-import IconRow from './Component/Icons/IconRow';
-import SecondRow from './Component/Icons/SecondRow';
-
-import { Card, ListItem, Icon, Button, FAB } from 'react-native-elements'
-
-
+import IconHomes from 'react-native-vector-icons/FontAwesome';
+import { Card, ListItem, Icon, Button, FAB } from 'react-native-elements';
+import Frow from '../Resource/Component/Card/Frow'
+import { HomeTab } from './Component/Tab/HomeTab';
 
 
 export default class Home extends React.Component{
@@ -42,56 +40,15 @@ export default class Home extends React.Component{
           resizeMode='cover'
           sliderBoxHeight={200}
         />    
-        
-        <ScrollView>
-          <Card containerStyle={Styles.cardstyle}>
-            <Card.Image source={require('../assets/icon/foodmenu.jpg')}>
-            </Card.Image>
-            <Card.Divider />
-            <Button
-                icon={<Icon name='code' color='#FFFFFF50' />}
-                buttonStyle={{color:'#FFFFFF50', borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                title='OUR MENU'
-                onPress={()=>this.props.navigation.navigate('Food')} />
-          </Card>
-          <Card containerStyle={Styles.cardstyle}>
-            <Card.Image source={require('../assets/icon/reserv.jpg')}>  
-            </Card.Image>
-            <Card.Divider/>
-            <Button
-                icon={<Icon name='code' color='#FFFFFF50' />}
-                buttonStyle={{color:'#FFFFFF50', borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                title='RESERVATION'
-                onPress={()=>this.props.navigation.navigate('Reservation')}  />
-          </Card>
-          <Card containerStyle={Styles.cardstyle}>        
-            <Card.Image source={require('../assets/icon/loc.jpg')}>       
-            </Card.Image>
-            <Card.Divider/>
-            <Button
-                icon={<Icon name='code' color='#FFFFFF50' />}
-                buttonStyle={{color:'#FFFFFF50', borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                title='LOCATION'
-                onPress={()=>this.props.navigation.navigate('Location')}  />
-          </Card>
-          <Card containerStyle={Styles.cardstyle}>        
-            <Card.Image source={require('../assets/icon/coupon.png')}>       
-            </Card.Image>
-            <Card.Divider/>
-            <Button
-                icon={<Icon name='code' color='#FFFFFF50' />}
-                buttonStyle={{color:'#FFFFFF50', borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                title='Coupon' 
-                onPress={()=>this.props.navigation.navigate('Coupon')}/>
-          </Card>
-        </ScrollView>
+          <Frow navigation={this.props.navigation} />
         <SliderBox
           images={this.state.banner}
-          autoplay
-          circleLoop
-          style={Styles.sliderStyle}
           resizeMode={'cover'}
+          style={Styles.sliderStyle}
         />
+
+        <HomeTab navigation={this.props.navigation}/>
+                
         <TouchableOpacity
         style={Styles.iconChat}>
           <FAB
@@ -105,20 +62,34 @@ export default class Home extends React.Component{
 }
 
 const Styles = StyleSheet.create({
-  cardstyle:{
+  container:{
+    display: "flex",
+    flexDirection: "row",
+},
+cardStyle:{
     borderRadius:10,
-    backgroundColor:'#FFFFFF50',
-  },
+},
+iconStyle:{
+    alignSelf:'center'
+},
   sliderStyle:{
-    width:'auto',
-    height:100,
-    marginTop:10,
-    borderRadius:10
+  width:'auto',
+  height:110,
+  borderRadius:10,
+  marginTop:15,
+  justifyContent:'space-between',
+  padding:10
   },
   iconChat:{
     position:'absolute',
     right:10,
-    bottom:30,
+    bottom:50,
     alignSelf:'flex-end'
+  },
+  banners:{
+    position:'absolute',
+    left:0,
+    right:0,
+    bottom:0
   }
 })
