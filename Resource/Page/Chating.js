@@ -29,8 +29,8 @@ const Chating = ({ navigation }) => {
         const User = firebase.auth().currentUser
         navigation.setOptions({
             headerLeft: () => (
-                <View style={{ marginLeft: 20 }}>
-                    {User ? <Text>{User.displayName}</Text>: <Text>From : Guest</Text>}
+                <View>
+                    {User ? <Text>{User.displayName}</Text>: <Text>Guest</Text>}
                 </View>
             ),
             headerRight: () => (
@@ -48,12 +48,25 @@ const Chating = ({ navigation }) => {
         })
     }, [navigation]);
 
-    const [user, setUser] = useState(() => firebase.auth().currentUser || undefined);
+    const [user, setUser] = useState(() => firebase.auth().currentUser || null);
     useEffect(() => firebase.auth().onAuthStateChanged(setUser), []);
     useEffect(() => {
         if (user === null) {
           // user is signed out
           navigation.navigate('Login');
+        }
+        else{
+    const unsubscribe = db.collection('chats')
+      .where('user.name', '==', user.displayName)
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(snapshot => setMessages(
+        snapshot.docs.map(doc => ({
+          _id: doc.data()._id,
+          createdAt: doc.data().createdAt.toDate(),
+          text: doc.data().text,
+          user: doc.data().user,
+      }))
+      ))
         }
       }, [user]);
 
@@ -72,16 +85,6 @@ const Chating = ({ navigation }) => {
         ])
     }, [])
 
-        useLayoutEffect(()=>{
-      const unsubscribe = db.collection('chats').orderBy('createdAt', 'desc').onSnapshot(snapshot => setMessages(
-        snapshot.docs.map(doc => ({
-          _id: doc.data()._id,
-          createdAt: doc.data().createdAt.toDate(),
-          text: doc.data().text,
-          user: doc.data().user,
-      }))
-      ))
-    })
 
     const onSend = useCallback((messages = []) => {
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages))

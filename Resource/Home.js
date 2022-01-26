@@ -5,6 +5,7 @@ import IconHomes from 'react-native-vector-icons/FontAwesome';
 import { Card, ListItem, Icon, Button, FAB } from 'react-native-elements';
 import Frow from '../Resource/Component/Card/Frow'
 import { HomeTab } from './Component/Tab/HomeTab';
+import Carousel from 'react-native-snap-carousel';
 
 
 export default class Home extends React.Component{
@@ -22,41 +23,56 @@ export default class Home extends React.Component{
         require('../assets/slider/event-2.jpg'),
         require('../assets/slider/event-3.jpg')
       ],
+      carouselItems: [
+        {
+          type: "THE DEN OF KALAHA",
+          image: require('../assets/slider/gall-den6.jpg')
+        },
+        {
+          type: "THE PIER BY KALAHA",
+          image: require('../assets/slider/gall-pier.jpg')
+        },
+      ],
+
       name:''
     }
   }
 
+  _renderItem({item,index}){
+    return (
+      <View>
+            <Image source={item.image} style={Styles.renderImage}/>
+            <Text style={Styles.myfont}>{item.type}</Text>
+      </View>
+
+    )
+}
+
   render(){
     return(
+      <ScrollView>
         <ImageBackground
         style={{flex: 1}}
-        source={require('../assets/bg/background4.jpeg')}>    
-        <SliderBox
-          images={this.state.images}
-          autoplay
-          dotColor="#FFEE58"
-          inactiveDotColor="#90A4AE"
-          circleLoop
-          resizeMode='cover'
-          sliderBoxHeight={200}
-        />    
-          <Frow navigation={this.props.navigation} />
+        source={require('../assets/bg/bg11.jpeg')}>    
+ 
         <SliderBox
           images={this.state.banner}
           resizeMode={'cover'}
           style={Styles.sliderStyle}
         />
-
-        <HomeTab navigation={this.props.navigation}/>
-                
-        <TouchableOpacity
-        style={Styles.iconChat}>
-          <FAB
-          icon={<Icon name='chat' color='#FFFFFF50' />}
-          color='#425E5B'
-          onPress={()=>this.props.navigation.navigate('Chating')} />
-        </TouchableOpacity>
+        <Text style={Styles.fontStyle}>ORDER FOOD AND BEVERAGES</Text>
+        <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center', }}>
+        <Carousel
+                  layout={"default"}
+                  ref={ref => this.carousel = ref}
+                  data={this.state.carouselItems}
+                  sliderWidth={300}
+                  itemWidth={300}
+                  renderItem={this._renderItem}
+                  onSnapToItem = { index => this.setState({activeIndex:index}) } />
+                  </View>
       </ImageBackground>
+      </ScrollView>
     )
   }
 }
@@ -74,8 +90,7 @@ iconStyle:{
 },
   sliderStyle:{
   width:'auto',
-  height:110,
-  borderRadius:10,
+  height:190,
   marginTop:15,
   justifyContent:'space-between',
   padding:10
@@ -91,5 +106,25 @@ iconStyle:{
     left:0,
     right:0,
     bottom:0
+  },
+  fontStyle:{
+    marginTop:15,
+    marginBottom:15,
+    color:'grey',
+    left:30,
+    fontSize:12,
+    fontWeight:'bold',
+    fontFamily:'serif'
+  },
+  myfont:{
+    color:'grey',
+    left:30,
+    fontSize:12,
+    fontWeight:'bold',
+    fontFamily:'serif'
+  },
+  renderImage:{
+    width:'auto',
+    height: 150
   }
 })

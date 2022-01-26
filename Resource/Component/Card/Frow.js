@@ -23,7 +23,7 @@ export default class Frow extends React.Component{
                     </TouchableOpacity>
                 </Card>               
                 <Card containerStyle={Styles.cardStyle}>
-                    <TouchableOpacity style={Styles.iconStyle} onPress={()=> navigate('Reservation')}>
+                    <TouchableOpacity style={Styles.iconStyle} onPress={()=> navigate('Booking')}>
                     <Image source={require('../../../assets/icon/reserve.png')} style={Styles.iconChat}/>
                    
                     </TouchableOpacity>
@@ -49,7 +49,9 @@ const Styles = StyleSheet.create({
     container:{
       display: "flex",
       flexDirection: "row",
-      alignSelf:'center'
+      alignSelf:'center',
+      marginRight:10,
+      marginLeft:10
   },
   cardStyle:{
       borderRadius:20,

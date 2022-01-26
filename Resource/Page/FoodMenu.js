@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView,Text, StyleSheet, View, FlatList} from 'react-native';
+import { Text, StyleSheet, View, FlatList} from 'react-native';
 import { Card, CardImage, CardTitle, CardContent, CardAction, CardButton } from 'react-native-material-cards'
 import ScrollableTabView, { DefaultTabBar, ScrollableTabBar } from 'react-native-scrollable-tab-view-forked'
 import {DrinkTab} from '../Component/Tab/DrinkTab';
@@ -13,7 +13,7 @@ export default class FoodMenu extends React.Component{
     }
     render(){
         return(
-    <ScrollableTabView>
+    <ScrollableTabView >
         <ProductList tabLabel="Appetizer" navigation={this.props.navigation}/>
         <Pasta tabLabel="Pasta" navigation={this.props.navigation}/>
         <DrinkTab tabLabel="Beverages" navigation={this.props.navigation}/>

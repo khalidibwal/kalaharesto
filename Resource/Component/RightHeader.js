@@ -2,14 +2,15 @@ import React from 'react'
 import { View, Text,StyleSheet,Image, TouchableOpacity } from 'react-native'
 import Menu from 'react-native-vector-icons/Entypo';
 
-const Titleheader = (props) =>{
+const RightHeader = (props) =>{
     
     return(
         <>
             <View style={styles.container}>
-            <Image style={styles.mypict} source={require('../../assets/slider/gall-pier.jpg')}/>
-            <Text style={styles.myfont}>MY KALAHA POINTS</Text>
-            <Text style={styles.mypoint}>0 POINTS</Text>
+            <TouchableOpacity onPress={()=> props.navigation.navigate('Chating')}>
+            <Image source={require('../../assets/bg/bgmsg.png')}
+            style={styles.topright}/>
+            </TouchableOpacity>
             </View>
         </>       
     )
@@ -54,10 +55,8 @@ const styles = StyleSheet.create({
     topright:{
         width:30,
         height:30,
-        alignSelf: 'flex-end',
-        position: 'absolute',
-        left:300
+        right:10
     }
 })
 
-export default Titleheader;
+export default RightHeader;

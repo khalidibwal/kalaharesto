@@ -57,6 +57,9 @@ export default class Reservation extends Component {
   }
 
   componentDidMount(){
+    const dateVar = this.props.route.params.date
+    const outletVar = this.props.route.params.outlet
+    console.log(dateVar,"dateee",outletVar)
     Array(ROWS * COLS).join(' ').split(' ').map((_, i) => {
       const currentIndex = i % COLS + Math.floor(i / COLS) % ROWS;
       const currentItem = {
@@ -71,7 +74,7 @@ export default class Reservation extends Component {
     });
     const isSignin = firebase.auth().currentUser.displayName
     const timestamp = firebase.firestore.FieldValue.serverTimestamp()
-    this.setState({username:isSignin,dates:timestamp})
+    this.setState({username:isSignin,dates:dateVar})
     this.state.selectedItems
 
     // db.collection('reservate').get().then((querySnapshot) => {
@@ -230,6 +233,7 @@ export default class Reservation extends Component {
       return item + 1
     })
     var qrdata = "Seat Row :" +" "+ x
+    var outletVar = this.props.route.params.outlet
     return (
       <View style={styles.container}>
         <View
@@ -343,6 +347,7 @@ export default class Reservation extends Component {
               size={220}/>  
               <Text style = {styles.text}> Name : {this.state.username}</Text>  
               <Text style = {styles.text}> Seat row : {x + ','}</Text>  
+              <Text style = {styles.text}> {outletVar}</Text>  
               {/* <Text style = {styles.text}> Date Reservation : {new Date(this.state.dates.toDate()).toDateString()}</Text>   */}
               <Button title="Close" style={styles.tops} onPress = {() => {  
                   this.setState({ visible:!this.state.visible})}}/>  
